@@ -1,0 +1,11 @@
+{
+  "base_url": "https://scnrhostplnc.feishuapp.com/app/app_17ha7tb8p9t",
+  "api_key": "XHyu8lTDeb2qATjijnNVJO7FL8O-2ysUE_Ke0RvO-0Q",
+  "projects": ["fall", "linkeda"],
+  "name": "Kawhi-PC",
+  "git_branch": "main",
+  "workdir": "D:/workspace/Radar_AutoTest",
+  "command": "python run_case.py --project linkeda --case-no {case_no} --case-name \"{case_name}\" --base-id {base_id}",
+  "repo_cache_dir": "./repo-cache",
+  "poll_interval": 3
+}
