@@ -29,7 +29,7 @@
          git_repo    测试脚本仓库（仅作说明保留，仓库地址由 workdir 的 remote 决定）
          git_branch  回退模式下拉取的分支；用例未填 gitBranch 时也用此值兜底
          workdir     回退模式的本地工作目录，必须已经是该仓库的 git 工作副本
-         command     回退模式的执行命令模板，可用占位符 {case_no} {case_name} {base_id}
+         command     回退模式的执行命令模板，可用占位符 {project} {case_no} {case_name} {base_id}
                      用例已配置 git 但 script 为空时，也用它在本用例仓库目录里执行
          repo_cache_dir  按用例拉取脚本时的仓库缓存根目录，默认 ./repo-cache（不存在自动创建）
          poll_interval 轮询间隔秒数，默认 3
@@ -229,6 +229,7 @@ def prepare_case_repo(config, repo, branch):
 
 def build_command(config, task):
     return config["command"].format(
+        project=task.get("projectKey", ""),
         case_no=task.get("caseNo", ""),
         case_name=task.get("caseName", ""),
         base_id=task.get("baseId", ""),
@@ -236,8 +237,9 @@ def build_command(config, task):
 
 
 def fill_placeholders(template, task):
-    """替换 {case_no} / {case_name} / {base_id}，缺字段时替换为空串、不抛异常。"""
-    text = template.replace("{case_no}", str(task.get("caseNo") or ""))
+    """替换 {project}/{case_no}/{case_name}/{base_id}，缺字段替换为空串。"""
+    text = template.replace("{project}", str(task.get("projectKey") or ""))
+    text = text.replace("{case_no}", str(task.get("caseNo") or ""))
     text = text.replace("{case_name}", str(task.get("caseName") or ""))
     text = text.replace("{base_id}", str(task.get("baseId") or ""))
     return text
@@ -295,6 +297,7 @@ def handle_case_task(config, task, run_id, repo):
 
 def handle_task(config, task, project):
     run_id = task.get("runId", "")
+    task["projectKey"] = task.get("projectKey") or project
     log(
         "[%s] 领取任务 %s（%s %s）"
         % (project, run_id, task.get("caseNo", ""), task.get("caseName", ""))

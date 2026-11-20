@@ -52,10 +52,10 @@ Run one mapped case:
 python run_case.py --project linkeda --case-no LKE-001 --case-name "linke smoke" --base-id 1001
 ```
 
-Run all LINKE tests (without case number):
+Run all LINKE tests (local debugging only):
 
 ```bash
-python run_case.py --project linkeda
+python run_case.py --project linkeda --allow-project-all
 ```
 
 ## 6. Start Runner (same as your current usage)
@@ -76,10 +76,16 @@ Runner behavior:
 For each case in platform "Automation" panel, set script like:
 
 ```bash
-python run_case.py --project linkeda --case-no {case_no} --case-name "{case_name}" --base-id {base_id}
+python run_case.py --project {project} --case-no {case_no} --case-name "{case_name}" --base-id {base_id}
 ```
 
 If per-case script is empty, runner falls back to `runner-config.json` `command`.
+
+Strict mode is enabled by default:
+
+- If `case-no` is empty, `run_case.py` exits with failure.
+- This prevents one demo script from marking unrelated cases as PASS.
+- Use `--allow-project-all` only for local suite debugging.
 
 ## 8. How to Add New Project (AIMA example)
 
@@ -88,7 +94,16 @@ If per-case script is empty, runner falls back to `runner-config.json` `command`
 3. Use project key in script/config:
 
 ```bash
-python run_case.py --project aima --case-no {case_no}
+python run_case.py --project {project} --case-no {case_no}
 ```
 
 No runner code change is required for adding mapped cases.
+
+## 9. Real Callback Validation (PASS/FAIL write-back)
+
+To validate case-result write-back in MiaoDa:
+
+1. Point `runner-config.json` `base_url` to the environment that already contains the new write-back logic (preview/dev branch), not old production code.
+2. Configure each case with a real mapped script via `case-map.json`.
+3. Run one known PASS case and one known FAIL case (assertion fail), then verify case judgment changes automatically.
+4. Keep `error` behavior unchanged (no case judgment overwrite) for infrastructure failures.

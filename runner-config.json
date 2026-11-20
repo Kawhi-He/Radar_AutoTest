@@ -5,7 +5,7 @@
   "name": "Kawhi-PC",
   "git_branch": "main",
   "workdir": "D:/workspace/Radar_AutoTest",
-  "command": "python run_case.py --project linkeda --case-no {case_no} --case-name \"{case_name}\" --base-id {base_id}",
+  "command": "python run_case.py --project {project} --case-no {case_no} --case-name \"{case_name}\" --base-id {base_id}",
   "repo_cache_dir": "./repo-cache",
   "poll_interval": 3
 }

@@ -93,6 +93,11 @@ def build_pytest_args(
                 % (case_no, project_key, available)
             )
     else:
+        if not args.allow_project_all:
+            raise SystemExit(
+                "case_no is required in strict mode. "
+                "Use --allow-project-all to run the whole project suite."
+            )
         target = f"tests/projects/{project_key}"
 
     return [
@@ -164,6 +169,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--log-dir", default="logs", help="Directory for local pytest logs"
+    )
+    parser.add_argument(
+        "--allow-project-all",
+        action="store_true",
+        help="Allow running all tests under a project when case-no is empty",
     )
     return parser.parse_args()
 

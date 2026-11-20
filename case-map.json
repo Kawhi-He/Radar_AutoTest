@@ -2,7 +2,8 @@
   "projects": {
     "linke": {
       "LKE-001": "tests/projects/linke/test_linke_demo.py::test_linke_connection_smoke",
-      "LKE-002": "tests/projects/linke/test_linke_demo.py::test_linke_data_process_smoke"
+      "LKE-002": "tests/projects/linke/test_linke_demo.py::test_linke_data_process_smoke",
+      "LKE-003": "tests/projects/linke/test_linke_demo.py::test_linke_fail_demo_for_callback"
     },
     "aima": {}
   }

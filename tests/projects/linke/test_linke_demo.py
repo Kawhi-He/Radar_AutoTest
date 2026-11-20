@@ -39,3 +39,22 @@ def test_linke_data_process_smoke(run_context):
     time.sleep(0.2)
     # Demo assertion for proving pass/fail propagation.
     assert "LKE" in (run_context.case_no or "LKE-DEFAULT")
+
+
+def test_linke_fail_demo_for_callback(run_context):
+    """Simulate a deterministic failure for callback verification.
+
+    Args:
+        run_context: Session metadata fixture from pytest.
+
+    Returns:
+        None.
+    """
+    print("[LINKE] start fail-demo callback check")
+    print(
+        "[LINKE] fail-demo context case_no=%s base_id=%s"
+        % (run_context.case_no, run_context.base_id)
+    )
+    time.sleep(0.2)
+    # Keep this assertion always false so the platform can verify FAIL write-back.
+    assert False, "Intentional failure demo for callback validation"
